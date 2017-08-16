@@ -13,6 +13,7 @@ class TcpParameterWindow : public QDialog
     Q_OBJECT
 
 public:
+    SOCKET sock;
     explicit TcpParameterWindow(QWidget *parent = 0);
     ~TcpParameterWindow();
     bool connected;
@@ -22,9 +23,12 @@ private slots:
     void on_ButtonDeconnexion_clicked();
     void on_ButtonConnexion_clicked();
 
+signals:
+    void on_connection(SOCKET sock);
+    void on_deconnection();
+
 private:
     Ui::TcpParameterWindow *ui;
-    SOCKET *sock;
 };
 
 

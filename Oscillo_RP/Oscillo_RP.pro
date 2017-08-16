@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = Oscillo_RP
 TEMPLATE = app
@@ -27,15 +27,22 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     tcpparameterwindow.cpp \
-    src_RP/TCP_API.cpp
+    src_RP/TCP_API.cpp \
+    qcustomplot.cpp \
+    settings.cpp \
+    graph.cpp
 
 HEADERS += \
         mainwindow.h \
     tcpparameterwindow.h \
-    src_RP/TCP_API.h
+    src_RP/TCP_API.h \
+    qcustomplot.h \
+    settings.h \
+    graph.h
 
 FORMS += \
         mainwindow.ui \
-    tcpparameterwindow.ui
+    tcpparameterwindow.ui \
+    settings.ui
 
 DISTFILES +=

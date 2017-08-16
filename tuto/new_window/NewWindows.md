@@ -21,7 +21,7 @@ here a
     public slots:
     void tpw_show();
 
-has been added. This function is declared as a slot so we can show the new window after an given even using the signal/slot methode.
+has been added. This function is declared as a slot so we can show the new window after an given event using the signal/slot methode.
 
 In mainwindow.cpp the constructor of the class must be modified by adding the defaut class tcpparameterwindow pointor (here as a null pointor) -> tpw(nullptr):
 

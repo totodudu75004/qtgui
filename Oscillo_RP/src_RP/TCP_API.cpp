@@ -2,7 +2,7 @@
 
 extern float r0;
 extern float rf;
-extern int dec;
+extern int decimation;
 extern int Nline;
 extern double sector;
 extern int mode_RP;
@@ -63,7 +63,7 @@ void add_client(client* client_list, SOCKET sock_server)
             {
                 buffer[0]=(char)r0;
                         buffer[1]=(char)rf;
-                        buffer[2]=(char)dec;
+                        buffer[2]=(char)decimation;
                         buffer[3]=(char)Nline;
                         buffer[4]=(char)sector;
                         buffer[5]=(char)mode_RP;
@@ -166,7 +166,7 @@ void get_RP_settings(SOCKET *sock)
     receive_TCP_client(sock, tmp, Nset);
     r0=(float)int_converter(tmp[0]);
     rf=(float)int_converter(tmp[1]);
-    dec=int_converter(tmp[2]);
+    decimation=int_converter(tmp[2]);
     Nline=int_converter(tmp[3]);
     sector=(double)int_converter(tmp[4]);
     mode_RP=int_converter(tmp[5]);

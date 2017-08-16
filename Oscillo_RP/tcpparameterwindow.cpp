@@ -23,8 +23,18 @@ void TcpParameterWindow::connection_state(int err)
 {
     if (connected==true)
     {
-        ui->color_box_conn->setStyleSheet("QLineEdit { background-color: green; }");
-        ui->label_conn->setText("Connected");
+        switch(err) {
+        case 11:
+            ui->label_conn->setText("Shutdown error");
+            break;
+        case 12:
+            ui->label_conn->setText("Close error");
+            break;
+        default:
+            emit on_connection(sock);
+            ui->color_box_conn->setStyleSheet("QLineEdit { background-color: green; }");
+            ui->label_conn->setText("Connected");
+        }
     }
     else
     {
@@ -36,13 +46,8 @@ void TcpParameterWindow::connection_state(int err)
         case 2:
             ui->label_conn->setText("Connection error");
             break;
-        case 11:
-            ui->label_conn->setText("Shutdown error");
-            break;
-        case 12:
-            ui->label_conn->setText("Close error");
-            break;
         default:
+            emit on_deconnection();
             ui->color_box_conn->setStyleSheet("QLineEdit { background-color: red; }");
             ui->label_conn->setText("Not connected");
             break;
@@ -55,7 +60,7 @@ void TcpParameterWindow::on_ButtonDeconnexion_clicked()
     if (connected==true)
     {
         int err;
-        err=close_TCP_client(sock, connected);
+        err=close_TCP_client(&sock, connected);
         connection_state(err);
     }
 }
@@ -65,7 +70,7 @@ void TcpParameterWindow::on_ButtonConnexion_clicked()
     if (connected==false)
     {
         int err;
-        err=init_TCP_client(sock, ui->lineEdit_ip->text().toStdString().c_str(), ui->lineEdit_port->text().toInt(), connected);
+        err=init_TCP_client(&sock, ui->lineEdit_ip->text().toStdString().c_str(), ui->lineEdit_port->text().toInt(), connected);
         connection_state(err);
     }
 }
