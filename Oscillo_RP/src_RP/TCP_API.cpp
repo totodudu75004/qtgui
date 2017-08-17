@@ -328,13 +328,16 @@ int send_TCP_server(client* client_list, char* buffer, int buff_length, int targ
     return err;
 }
 
-void send_TCP_client(SOCKET* sock, char* buffer, int buff_length)
+int send_TCP_client(SOCKET* sock, char* buffer, int buff_length)
 {
-    if(send((*sock), buffer, buff_length, 0)<0)
+    int err=0;
+    if(send((*sock), buffer, buff_length, MSG_NOSIGNAL)<0)
     {
         perror("send()");
-        exit(errno);
+        //exit(errno);
+        err=1;
     }
+    return err;
 }
 
 int receive_TCP_server(client* client_list, char* buffer, int buff_length, int target)
@@ -351,7 +354,7 @@ int receive_TCP_client(SOCKET* sock, char* buffer, int buff_length)
 {
     if (recv((*sock), buffer, buff_length, MSG_WAITALL)==0)
     {
-        printf("server closed\n");
+        //printf("server closed\n");
         return 1;
     }
     else {return 0;}

@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSettings_of_the_image, SIGNAL(triggered()), this, SLOT(setw_show())); //show the interface tcpparameterwindow when clicking in the menu
     connect(tpw, SIGNAL(on_connection(SOCKET)), this, SLOT(set_connection())); //put the colorbox on green on connection
     connect(tpw, SIGNAL(on_deconnection()), this, SLOT(set_connection())); //put the colorbox on red on connection
-    connect(tpw, SIGNAL(on_connection(SOCKET)), setw, SLOT(get_setting(SOCKET))); //send the socket to setw and get the settings at connection
+    connect(tpw, SIGNAL(on_connection(SOCKET)), setw, SLOT(get_setting(SOCKET))); //send the socket to setw and get the image settings at connection
+    connect(tpw, SIGNAL(on_ramp_connection(SOCKET)), setw, SLOT(get_ramp(SOCKET))); //send the socket to setw and get the ramp settings at connection
     connect(setw, SIGNAL(setting_done()), this, SLOT(init_graph()));
 
     ui->ColorBox->setStyleSheet("QLineEdit { background-color: gray; }");

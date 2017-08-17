@@ -8,6 +8,7 @@ TcpParameterWindow::TcpParameterWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->connected=false;
+    connectedset=false;
     ui->color_box_conn->setStyleSheet("QLineEdit { background-color: gray; }");
     ui->label_conn->setText("Not connected");
     //printf("creation of a new TcpParameterWindow\n");
@@ -63,6 +64,12 @@ void TcpParameterWindow::on_ButtonDeconnexion_clicked()
         err=close_TCP_client(&sock, connected);
         connection_state(err);
     }
+    if (connectedset==true)
+    {
+        int err;
+        err=close_TCP_client(&sock_ramp, connectedset);
+        if (err==0) {connectedset=false;}
+    }
 }
 
 void TcpParameterWindow::on_ButtonConnexion_clicked()
@@ -72,5 +79,15 @@ void TcpParameterWindow::on_ButtonConnexion_clicked()
         int err;
         err=init_TCP_client(&sock, ui->lineEdit_ip->text().toStdString().c_str(), ui->lineEdit_port->text().toInt(), connected);
         connection_state(err);
+    }
+    if (connectedset==false)
+    {
+        int err;
+        err=init_TCP_client(&sock_ramp, ui->lineEdit_ip->text().toStdString().c_str(), ui->lineEdit_port->text().toInt()+1, connectedset);
+        if (err==0)
+        {
+            connectedset=true;
+            emit on_ramp_connection(sock_ramp);
+        }
     }
 }

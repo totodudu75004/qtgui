@@ -64,7 +64,40 @@ void Settings::get_setting(SOCKET sck)
     char tmp[6];
     receive_TCP_client(&sock, tmp, 6);
     init_settings(tmp);
-    qDebug("settings initiated\n");
     emit setting_done();
-    qDebug("setting done\n");
+}
+
+void Settings::get_ramp(SOCKET sck)
+{
+    sock_ramp=sck;
+    char tmp[2];
+    receive_TCP_client(&sock_ramp, tmp, 2);
+    int temp;
+    temp=int_converter(tmp[0]);
+    gain0=((double)temp)/255.0;
+    ui->lineEdit_gain0->setText(QString::number(gain0));
+    temp=int_converter(tmp[1]);
+    gainf=((double)temp)/255.0;
+    ui->lineEdit_gainf->setText(QString::number(gainf));
+}
+
+void Settings::on_pushButton_edit_gain_clicked()
+{
+    ui->lineEdit_gain0->setEnabled(true);
+    ui->lineEdit_gainf->setEnabled(true);
+}
+
+void Settings::on_pushButton_change_gain_clicked()
+{
+    double gain;
+    char buff[2];
+    int err;
+    gain=ui->lineEdit_gain0->text().toDouble();
+    buff[0]=(char)(gain*255.0);
+    gain=ui->lineEdit_gainf->text().toDouble();
+    buff[1]=(char)(gain*255.0);
+    err=send_TCP_client(&sock_ramp, buff, 2);
+    if (err==1) {qDebug("socket ramp closed");}
+    ui->lineEdit_gain0->setEnabled(false);
+    ui->lineEdit_gainf->setEnabled(false);
 }

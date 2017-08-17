@@ -62,7 +62,6 @@ void Graph::plot(TcpParameterWindow *tpw)
     {
         if(receive_int16_TCP_client(&tpw->sock, buff, Npoint+1)==1)
         {
-            printf("socket deconnected\n");
             tpw->connected=false;
             emit socket_closed();
         }

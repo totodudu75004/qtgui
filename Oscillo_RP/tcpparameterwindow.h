@@ -26,9 +26,12 @@ private slots:
 signals:
     void on_connection(SOCKET sock);
     void on_deconnection();
+    void on_ramp_connection(SOCKET sock);
 
 private:
     Ui::TcpParameterWindow *ui;
+    bool connectedset;
+    SOCKET sock_ramp;
 };
 
 
